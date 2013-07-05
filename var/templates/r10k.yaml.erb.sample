@@ -1,0 +1,8 @@
+:cachedir: <%= cache_dir %>
+:sources:
+  :<%= sitename %>:
+    remote: '<%= gitrepo %>'
+    basedir: '<%= environment_dir %>'
+
+:purgedirs:
+  - '<%= environment_dir %>'

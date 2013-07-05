@@ -1,0 +1,22 @@
+# puppet.conf
+
+[main]
+
+# Directories
+confdir = <%= confdir %>
+logdir  = $confdir/var/log/puppet
+vardir  = $confdir/var/lib/puppet
+ssldir  = $confdir/var/lib/puppet/ssl
+rundir  = $confdir/var/run/puppet
+
+modulepath = <%= modulepaths.join(':') %>
+manifest   = $confdir/environments/$environment/site.pp
+pluginsync = true
+show_diff  = true
+
+environment    = production
+config_version = "git --git-dir $confdir/environments/$environment/.git rev-parse --short HEAD 2>/dev/null || echo"
+
+node_terminus = exec
+external_nodes = $confdir/environments/$environment/bin/enc
+

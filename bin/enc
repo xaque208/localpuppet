@@ -1,0 +1,11 @@
+#! /usr/bin/env ruby
+
+cwd       = File.expand_path File.dirname(__FILE__)
+dirbase   = File.dirname(cwd)
+
+$LOAD_PATH.unshift File.join(dirbase, 'lib')
+
+require 'localpuppet/enc'
+
+LocalPuppet::ENC.run(ARGV)
+
