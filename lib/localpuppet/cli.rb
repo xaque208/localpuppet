@@ -1,50 +1,51 @@
-require 'localpuppet/flags'
-require 'localpuppet/runner'
-require 'localpuppet/puppet'
+require 'localpuppet'
+require 'localpuppet/version'
+require 'localpuppet/settings'
 
-module LocalPuppet
-  class CLI
+require 'cri'
 
-    attr_reader :flags
+module LocalPuppet::CLI
+  def self.command
+    @cmd ||= Cri::Command.define do
+      name  'localpuppet'
+      usage 'localpuppet <subcommand> [options]'
+      summary 'localized puppet runs'
+      description <<-EOD
+        localpuppet is a tool to run puppet out of directory.  Useful for
+        executing puppet apply with a given set of manifests.
+      EOD
 
-    def initialize(flags)
-      @flags = flags
-      @runner = LocalPuppet::Runner.new @flags
-    end
+      flag :h, :help, 'show help for this command' do |value, cmd|
+        puts cmd.help
+        exit 0
+      end
 
-    def sync
-      @runner.sync
-    end
+      flag :V, :version, 'show help for this command' do |value, cmd|
+        puts LocalPuppet::VERSION
+        exit 0
+      end
 
-    def setup
-      @runner.setup
-    end
+      flag :v, :verbose, 'speak up' do |value, cmd|
+        LocalPuppet::Settings.verbose = true
+      end
 
-    def nothing
-      @runner.nothing
-    end
+      flag :n, :noop, 'run in noop' do |value, cmd|
+        LocalPuppet::Settings.noop = true
+      end
 
-    def run
-      @runner.run
-    end
+      flag :d, :debug, 'print debug output' do |value, cmd|
+        LocalPuppet::Settings.debug = true
+      end
 
-    def self.run(*args)
-      flags = LocalPuppet::Flags.new(args)
-      config = flags.config
-
-      LocalPuppet::CLI.new(config)
-
-      case flags.cmd
-      when 'sync'
-        return LocalPuppet::CLI.new(config).sync
-      when 'setup'
-        return LocalPuppet::CLI.new(config).setup
-      when 'run'
-        return LocalPuppet::CLI.new(config).run
-      else
-        return LocalPuppet::CLI.new(config).nothing
+      run do |opts, args, cmd|
+        puts cmd.help(:verbose => opts[:verbose])
+        exit 0
       end
     end
-
   end
 end
+
+require 'localpuppet/cli/setup'
+require 'localpuppet/cli/sync'
+require 'localpuppet/cli/apply'
+require 'localpuppet/cli/deploy'

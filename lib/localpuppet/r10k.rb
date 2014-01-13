@@ -1,18 +1,18 @@
-require 'pp'
+require 'localpuppet/config'
 require 'r10k/cli'
 
 module LocalPuppet
   module R10k
-    def self.run(config)
-      #ENV['PUPPETFILE_DIR'] = config[:puppetfile_dir]
-      #ENV['PUPPETFILE']     = config[:puppetfile]
+    def self.deploy
 
-      #`/usr/local/bin/r10k deploy environment -c #{config[:etcdir] + '/r10k.yaml'} -p`
+      r10k_config = LocalPuppet::Config.etcdir + '/r10k.yaml'
+
+      #`/usr/local/bin/r10k deploy environment -c r10k.yaml -p`
       args = []
       args << "deploy"
       args << "environment"
       args << "-c"
-      args << "#{config[:etcdir] + '/r10k.yaml'}"
+      args << r10k_config
       args << "-p"
       R10K::CLI.command.run(args)
     end

@@ -8,5 +8,12 @@ $LOAD_PATH.unshift File.join(dirbase, 'lib')
 ENV['PATH'] = ENV['PATH'] + ':/usr/local/bin'
 
 require 'localpuppet/cli'
+require 'colored'
 
-LocalPuppet::CLI.run ARGV
+begin
+  LocalPuppet::CLI.command.run(ARGV)
+rescue Interrupt
+  $stderr.puts "Aborted!".red
+  exit(1)
+end
+

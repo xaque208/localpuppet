@@ -3,13 +3,13 @@
 [main]
 
 # Directories
-confdir = <%= confdir %>
+confdir = <%= @config[:basedir] %>/etc
 logdir  = $confdir/var/log/puppet
 vardir  = $confdir/var/lib/puppet
 ssldir  = $confdir/var/lib/puppet/ssl
 rundir  = $confdir/var/run/puppet
 
-modulepath = <%= modulepaths.join(':') %>
+modulepath = <%= @config[:modulepaths].join(':') %>
 manifest   = $confdir/environments/$environment/site.pp
 pluginsync = true
 show_diff  = true

@@ -3,4 +3,5 @@
 :gitrepo: git@github.com:xaque208/localpuppet.git
 :modulepaths:
   - '$confdir/environments/$environment/modules'
+  - '$confdir/environments/$environment/site'
   - '$confdir/environments/$environment/site/modules'

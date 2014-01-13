@@ -10,4 +10,4 @@
   - common
 
 :yaml:
-  :datadir: <%= datadir %>
+  :datadir: <%= @config[:basedir] %>/environments/%{environment}/site/data
