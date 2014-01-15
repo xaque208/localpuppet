@@ -4,7 +4,7 @@ require 'localpuppet'
 module LocalPuppet
   module Settings
 
-    attr_accessor :verbose, :noop, :debug
+    attr_accessor :verbose, :noop, :debug, :configfile
 
     def self.verbose
       @verbose || false
@@ -28,6 +28,14 @@ module LocalPuppet
 
     def self.debug=(value)
       @debug = value
+    end
+
+    def self.configfile
+      @configfile || 'etc/config.yaml'
+    end
+
+    def self.configfile=(value)
+      @configfile = value
     end
   end
 end

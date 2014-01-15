@@ -6,9 +6,6 @@ module LocalPuppet
   module Puppet
     def self.apply
 
-      verbose = LocalPuppet::Settings.verbose
-      noop    = LocalPuppet::Settings.noop
-      debug   = LocalPuppet::Settings.debug
       basedir = LocalPuppet::Config.basedir
 
       site_pp     = basedir + '/site/site.pp'
@@ -19,9 +16,9 @@ module LocalPuppet
       cmd << '--environment production'
       cmd << '--config ' + puppet_conf
       cmd << site_pp
-      cmd << '-v' if verbose
-      cmd << '--noop' if noop
-      cmd << '--debug' if debug
+      cmd << '-v' if LocalPuppet::Settings.verbose
+      cmd << '--noop' if LocalPuppet::Settings.noop
+      cmd << '--debug' if LocalPuppet::Settings.debug
 
       command = cmd.join(' ')
       system(command)

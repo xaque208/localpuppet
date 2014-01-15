@@ -15,12 +15,25 @@ module LocalPuppet::Setup
   end
 
   def self.preflight
-    unless File.exists?(@config[:basedir])
-      abort "===> ERR: template file missing at #{@config[:puppet_conf_erb]}"
+
+    unless File.exists?(@config[:basedir]) and File.writable?(@config[:basedir])
+
+      begin
+        FileUtils.mkdir_p(@config[:basedir])
+      rescue => e
+        puets "===> Unable to create base directory: #{@config[:basedir]}"
+        puts e
+        exit 1
+      end
+    end
+
+    unless File.exists?(@config[:templatedir])
+      abort "===> ERR: template directory does not exist: #{@config[:templatedir]}"
     end
 
     # Create the var/ directory
     FileUtils.mkdir_p(@config[:vardir]) unless File.directory?(@config[:vardir])
+    FileUtils.mkdir_p(@config[:etcdir]) unless File.directory?(@config[:etcdir])
 
     # Create the needed directories
     ['log','run','lib'].each {|d|
@@ -35,7 +48,7 @@ module LocalPuppet::Setup
     yamlconfigs << 'r10k'
 
     yamlconfigs.each do |t|
-      erbfile  = @config[:basedir] + "/var/templates/#{t}.yaml.erb"
+      erbfile  = @config[:templatedir] + "/#{t}.yaml.erb"
       destfile = @config[:basedir] + "/etc/#{t}.yaml"
       begin
         template  = File.read(erbfile)
@@ -49,7 +62,7 @@ module LocalPuppet::Setup
     configs = []
     configs << 'puppet'
     configs.each do |t|
-      erbfile  = @config[:basedir] + "/var/templates/#{t}.conf.erb"
+      erbfile  = @config[:templatedir] + "/#{t}.conf.erb"
       destfile = @config[:basedir] + "/etc/#{t}.conf"
       begin
         template  = File.read(erbfile)
