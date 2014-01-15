@@ -1,8 +1,8 @@
-:cachedir: <%= cache_dir %>
+:cachedir: '<%= @config[:vardir] %>/cache/r10k'
 :sources:
-  :<%= sitename %>:
-    remote: '<%= gitrepo %>'
-    basedir: '<%= environment_dir %>'
+  :<%= @config[:sitename] %>:
+    remote: '<%= @config[:gitrepo] %>'
+    basedir: '<%= @config[:basedir] %>/environments'
 
 :purgedirs:
-  - '<%= environment_dir %>'
+  - '<%= @config[:basedir] %>/environments'

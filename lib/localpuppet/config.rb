@@ -1,34 +1,42 @@
+require 'localpuppet'
 require 'yaml'
 
-module LocalPuppet
-  class Config
-    attr_reader :config
+# Manage the retrieval of on-disk config settings
+module LocalPuppet::Config
 
-    def initialize
-      #print "===> loading configuraiton..."
+  attr_reader :config, :basedir, :etcdir
 
-      thisdir = File.expand_path File.dirname(__FILE__)
-      basedir = File.dirname(File.dirname(thisdir))
+  def self.config
+    @config ||= configload()
+  end
 
-      site_config = YAML.load(File.read(basedir + '/etc/config.yaml'))
+  def self.basedir
+    config()[:basedir]
+  end
 
-      @config = {
-        :basedir        => basedir,
-        :puppetfile_dir => "#{basedir}/modules",
-        :puppetfile     => "#{basedir}/Puppetfile",
-        :etcdir         => "#{basedir}/etc",
-        :vardir         => "#{basedir}/var",
-      }
+  def self.etcdir
+    config()[:etcdir]
+  end
 
-      site_config.each do |k,v|
-        @config[k] = v
-      end
-      @config
+  private
+
+  def self.configload
+    thisdir = File.expand_path File.dirname(__FILE__)
+    basedir = File.dirname(File.dirname(thisdir))
+
+    site_config = YAML.load(File.read(basedir + '/etc/config.yaml'))
+
+    @config = {
+      :basedir        => basedir,
+      :puppetfile_dir => "#{basedir}/modules",
+      :puppetfile     => "#{basedir}/Puppetfile",
+      :etcdir         => "#{basedir}/etc",
+      :vardir         => "#{basedir}/var",
+    }
+
+    site_config.each do |k,v|
+      @config[k] = v
     end
-
-    def self.config
-      config = LocalPuppet::Config.new
-      config.config
-    end
+    @config
   end
 end

@@ -1,3 +1,4 @@
 source 'https://rubygems.org'
 gem 'r10k'
-gem 'trollop'
+gem 'cri'
+gem 'colored'
