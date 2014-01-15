@@ -1,0 +1,10 @@
+/var/cache/
+/var/lib/
+etc/puppet.conf
+etc/r10k.yaml
+/environments/
+Gemfile.lock
+etc/config.yaml
+hiera.yaml
+var/templates/*.erb
+.bundle

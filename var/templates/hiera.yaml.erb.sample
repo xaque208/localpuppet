@@ -1,0 +1,13 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - nodes/%{fqdn}
+  - domains/%{domain}
+  - os/%{osfamily}
+  - modules/%{module_name}
+  - common
+
+:yaml:
+  :datadir: <%= @config[:basedir] %>/environments/%{environment}/site/data

@@ -1,0 +1,8 @@
+:cachedir: '<%= @config[:vardir] %>/cache/r10k'
+:sources:
+  :<%= @config[:sitename] %>:
+    remote: '<%= @config[:gitrepo] %>'
+    basedir: '<%= @config[:basedir] %>/environments'
+
+:purgedirs:
+  - '<%= @config[:basedir] %>/environments'
