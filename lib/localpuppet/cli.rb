@@ -37,6 +37,10 @@ module LocalPuppet::CLI
         LocalPuppet::Settings.debug = true
       end
 
+      required :c, :config, 'Specify a configuration file' do |value, cmd|
+        LocalPuppet::Settings.configfile = value
+      end
+
       run do |opts, args, cmd|
         puts cmd.help(:verbose => opts[:verbose])
         exit 0
