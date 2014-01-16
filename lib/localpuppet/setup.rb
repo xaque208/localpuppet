@@ -21,7 +21,7 @@ module LocalPuppet::Setup
       begin
         FileUtils.mkdir_p(@config[:basedir])
       rescue => e
-        puets "===> Unable to create base directory: #{@config[:basedir]}"
+        puts "===> Unable to create base directory: #{@config[:basedir]}"
         puts e
         exit 1
       end
@@ -33,7 +33,6 @@ module LocalPuppet::Setup
 
     # Create the var/ directory
     FileUtils.mkdir_p(@config[:vardir]) unless File.directory?(@config[:vardir])
-    FileUtils.mkdir_p(@config[:etcdir]) unless File.directory?(@config[:etcdir])
 
     # Create the needed directories
     ['log','run','lib'].each {|d|
@@ -46,24 +45,24 @@ module LocalPuppet::Setup
     yamlconfigs = []
     yamlconfigs << 'hiera'
     yamlconfigs << 'r10k'
-
     yamlconfigs.each do |t|
       erbfile  = @config[:templatedir] + "/#{t}.yaml.erb"
-      destfile = @config[:basedir] + "/etc/#{t}.yaml"
-      begin
-        template  = File.read(erbfile)
-        output    = ERB.new(template).result(binding)
-        File.open(destfile, 'w') { |file| file.write( output ) }
-      rescue => e
-        raise e
-      end
+      destfile = @config[:basedir] + "/#{t}.yaml"
+      templatize(erbfile,destfile)
     end
 
     configs = []
     configs << 'puppet'
     configs.each do |t|
       erbfile  = @config[:templatedir] + "/#{t}.conf.erb"
-      destfile = @config[:basedir] + "/etc/#{t}.conf"
+      destfile = @config[:basedir] + "/#{t}.conf"
+      templatize(erbfile,destfile)
+    end
+  end
+
+  private
+
+  def self.templatize(erbfile, destfile)
       begin
         template  = File.read(erbfile)
         output    = ERB.new(template).result(binding)
@@ -71,7 +70,6 @@ module LocalPuppet::Setup
       rescue => e
         raise e
       end
-    end
   end
 
   def get_binding

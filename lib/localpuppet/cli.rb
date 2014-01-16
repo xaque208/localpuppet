@@ -37,6 +37,10 @@ module LocalPuppet::CLI
         LocalPuppet::Settings.debug = true
       end
 
+      required :e, :environment, 'the environment to deploy and apply' do |value, cmd|
+        LocalPuppet::Settings.environment = value
+      end
+
       required :c, :config, 'Specify a configuration file' do |value, cmd|
         LocalPuppet::Settings.configfile = value
       end

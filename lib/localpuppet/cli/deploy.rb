@@ -13,6 +13,10 @@ module LocalPuppet::CLI
         `localpuppet deploy` Execute R10k to deploy the manifests.
         DESCRIPTION
 
+        flag :D, :nodeep, 'execute a deep deploy, default to true' do |value, cmd|
+          LocalPuppet::Settings.deep = false
+        end
+
         run do |opts, args, cmd|
           LocalPuppet::R10k.deploy
         end
