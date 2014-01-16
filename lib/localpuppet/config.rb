@@ -57,7 +57,7 @@ module LocalPuppet::Config
     @config[:puppetfile_dir] = "#{@config[:basedir]}/modules"
     @config[:puppetfile]     = "#{@config[:basedir]}/puppetfile"
     @config[:etcdir]         = "#{@config[:basedir]}/etc"
-    @config[:vardir]         = "#{@config[:basedir]}/vardir"
+    @config[:vardir]         = "#{@config[:basedir]}/var"
 
     @config
   end
