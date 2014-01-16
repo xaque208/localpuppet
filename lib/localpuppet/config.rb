@@ -5,7 +5,7 @@ require 'yaml'
 # Manage the retrieval of on-disk config settings
 module LocalPuppet::Config
 
-  attr_reader :config, :basedir, :etcdir, :templatedir
+  attr_reader :config, :basedir, :templatedir
 
   def self.config
     @config ||= configload()
@@ -13,10 +13,6 @@ module LocalPuppet::Config
 
   def self.basedir
     config()[:basedir]
-  end
-
-  def self.etcdir
-    config()[:etcdir]
   end
 
   def self.templatedir
@@ -56,7 +52,6 @@ module LocalPuppet::Config
     # Then expand on the results
     @config[:puppetfile_dir] = "#{@config[:basedir]}/modules"
     @config[:puppetfile]     = "#{@config[:basedir]}/puppetfile"
-    @config[:etcdir]         = "#{@config[:basedir]}/etc"
     @config[:vardir]         = "#{@config[:basedir]}/var"
 
     @config

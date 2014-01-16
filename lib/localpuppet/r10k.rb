@@ -6,7 +6,7 @@ module LocalPuppet
   module R10k
     def self.deploy
 
-      r10k_config = LocalPuppet::Config.etcdir + '/r10k.yaml'
+      r10k_config = LocalPuppet::Config.basedir + '/r10k.yaml'
 
       unless File.exists?(r10k_config) and File.readable?(r10k_config)
         abort "===> R10k config file does not exist or is not readable.  Have you run `setup`?"
@@ -16,9 +16,10 @@ module LocalPuppet
       args = []
       args << "deploy"
       args << "environment"
+      args << LocalPuppet::Settings.environment
       args << "-c"
       args << r10k_config
-      args << "-p"
+      args << "-p" if LocalPuppet::Settings.deep
       args << "-v" if LocalPuppet::Settings.verbose
       R10K::CLI.command.run(args)
     end

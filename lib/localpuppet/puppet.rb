@@ -13,7 +13,8 @@ module LocalPuppet
 
       cmd = []
       cmd << 'puppet apply'
-      cmd << '--environment production'
+      cmd << '--environment'
+      cmd << LocalPuppet::Settings.environment
       cmd << '--config ' + puppet_conf
       cmd << site_pp
       cmd << '-v' if LocalPuppet::Settings.verbose
