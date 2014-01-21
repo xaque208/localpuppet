@@ -40,12 +40,11 @@ puppet apply --config puppet.conf -v
 
 If you are looking to use vagrant, the templates for `hiera` and `puppet` need to be modified to use the `/vagrant` directory.
 
-### Hiera
-
-For `hiera`, this means modifying the `:datadir` to use `/vagrant.
-
-### Puppet
+For `hiera`, this means modifying the `:datadir` to use `/vagrant`.
 
 For `puppet`, this means modifying the `confdir` to be `/vagrant`.
 
-
+For `r10k`, no modification is needed if you are running from the host system.
+Once `r10k` is deployed, `puppet apply` can be executed from the guest system,
+without the need of providing keyed access to any private git repos to the
+guest.
